@@ -13,6 +13,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.nagarro.shubhamvashishth.readpin.ui.navigation.Screens
 
 
 @Composable
@@ -25,7 +26,8 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    AnimatedVisibility(visible = navController.currentDestination?.route != "user_profile_screen"
+    AnimatedVisibility(
+        visible = navController.currentDestination?.route !in listOf<String>(Screens.ViewBookById.route,Screens.UserProfile.route)
     ) {
         BottomNavigation {
             screens.forEach { screen ->

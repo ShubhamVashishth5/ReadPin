@@ -9,11 +9,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
+import com.nagarro.shubhamvashishth.readpin.constants.VIEW_BOOK_ROUTE
 
 @Composable
 fun discoverScreen(navHostController: NavHostController){
-    Button(onClick = { navHostController.navigate("user") },  Modifier.fillMaxSize()) {
+    Button(onClick = { navHostController.navigate("view/"+14) },  Modifier.fillMaxSize()) {
         Text(text = navHostController.currentDestination?.route!!)
     }
 }

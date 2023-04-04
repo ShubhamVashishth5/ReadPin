@@ -17,6 +17,7 @@ fun SetupNavGraph(
         homeNavGraph(navHostController)
         discoverNavGraph(navHostController)
         userNavGraph(navHostController)
+        viewBookNavGraph(navHostController)
     }
 
 }

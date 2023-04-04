@@ -5,5 +5,6 @@ data class WorksWeekly (val key: String,
                         val author_name: List<String>,
                         val author_key: List<String>,
                         val edition_count:Int,
-                        val cover_edition_key:String) {
+                        val cover_edition_key:String,
+                        val cover_i: Long) {
 }
