@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.nagarro.shubhamvashishth.readpin.constants.DEBUG_LOG
 import com.nagarro.shubhamvashishth.readpin.ui.components.reusable.basicBookCard
 import com.nagarro.shubhamvashishth.readpin.ui.components.reusable.bookPlaceholderShimmer
 import com.nagarro.shubhamvashishth.readpin.ui.components.reusable.featureLockedLogin
@@ -22,7 +23,7 @@ fun homeScreen(navController: NavHostController){
 
     val bookList by viewModel.bookList.collectAsState()
 
-    Log.d("Hello", bookList.works.size.toString())
+    Log.d(DEBUG_LOG, bookList.works.size.toString())
 
     if (bookList.works.size==0){    viewModel.updateWeeklyList()
     }
@@ -43,11 +44,13 @@ fun homeScreen(navController: NavHostController){
                 items(it.works){
                     //Text(text = it.cover_edition_key+ " " + it.title)
                     basicBookCard(olid = it.cover_edition_key, it.title,
-                        like = {navController
-                            .navigate("view/"+it.key.substringAfterLast('/')+ "/{${it.cover_i}}")
+                        like = {
+                            navController
+                            .navigate("view/"+it.key.substringAfterLast('/')+
+                                    "/${it.cover_i}")
+
                         }
                     )
-
                     isLoading=false
                 }
             }

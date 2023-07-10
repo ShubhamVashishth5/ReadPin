@@ -2,11 +2,11 @@ package com.nagarro.shubhamvashishth.readpin.repository
 
 import com.nagarro.shubhamvashishth.readpin.api.BooksAPI
 import com.nagarro.shubhamvashishth.readpin.api.RetrofitHelper
-import com.nagarro.shubhamvashishth.readpin.model.trending.Book
+import com.nagarro.shubhamvashishth.readpin.model.Author
+import com.nagarro.shubhamvashishth.readpin.model.Book
 import com.nagarro.shubhamvashishth.readpin.model.trending.WeeklyTrending
 import com.nagarro.shubhamvashishth.readpin.model.trending.WorksWeekly
 import kotlinx.coroutines.*
-import retrofit2.create
 
 class DataRepository {
 
@@ -27,11 +27,18 @@ class DataRepository {
         return list!!.works
     }
 
-    suspend fun getBookById(bookId:String): Deferred<Book?>{
+    suspend fun getBookByIdAsync(bookId:String): Deferred<Book?>{
         return CoroutineScope(Dispatchers.IO).async {
             return@async networkDataRepository.getBookById(bookId).body()
         }
-
     }
+
+    suspend fun getAuthorByIdAsync(authorId:String): Deferred<Author?>{
+        return CoroutineScope(Dispatchers.IO).async {
+            return@async networkDataRepository.getAuthorById(authorId).body()
+        }
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.nagarro.shubhamvashishth.readpin.ui.components.reusable
 
+import android.os.Debug
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.nagarro.shubhamvashishth.readpin.R
+import com.nagarro.shubhamvashishth.readpin.constants.DEBUG_LOG
 import com.valentinilk.shimmer.*
 
 @Composable
@@ -28,7 +30,7 @@ fun basicBookCard(olid: String?, title:String, like: ()->Unit  ){
 
    val url= "https://covers.openlibrary.org/b/olid/${olid?:""}-L.jpg"
 
-    Log.d("hello",url)
+    Log.d(DEBUG_LOG,url)
 
     Box(Modifier.padding(20.dp).clickable {
         like()

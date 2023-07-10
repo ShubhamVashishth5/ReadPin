@@ -14,7 +14,7 @@ class HomeViewModel : ViewModel() {
 
     val repository= DataRepository()
 
-    private var _bookList = MutableStateFlow<WeeklyTrending>(WeeklyTrending(mutableListOf()));
+    private var _bookList = MutableStateFlow(WeeklyTrending(mutableListOf()));
     var bookList: StateFlow<WeeklyTrending> = _bookList
 
 

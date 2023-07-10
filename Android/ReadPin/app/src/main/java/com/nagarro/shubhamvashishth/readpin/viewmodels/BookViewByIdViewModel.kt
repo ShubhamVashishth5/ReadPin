@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import com.nagarro.shubhamvashishth.readpin.constants.DEBUG_LOG
-import com.nagarro.shubhamvashishth.readpin.model.trending.Book
+import com.nagarro.shubhamvashishth.readpin.constants.NETWORK_LOG
+import com.nagarro.shubhamvashishth.readpin.constants.VALUE_CHECK_LOG
+import com.nagarro.shubhamvashishth.readpin.model.Book
 import com.nagarro.shubhamvashishth.readpin.repository.DataRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,34 +20,54 @@ class BookViewByIdViewModel : ViewModel() {
 
     fun loadBook(olId:String){
         viewModelScope.launch {
-            var responseBook=repository.getBookById(olId)
+            var responseBook=repository.getBookByIdAsync(olId)
             var unparsedBook= responseBook.await()
-
-            Log.d(DEBUG_LOG, unparsedBook!!.description.toString())
-
-            var parsedDescription=  unparsedBook!!.description.toString().removeRange(1..17)
-            parsedDescription=parsedDescription.replace("\"","\\\"")
-            parsedDescription= parsedDescription.replaceRange(7,7,"\"")
-                .replaceRange(parsedDescription.length,parsedDescription.length,"\"")
-
-            Log.d(DEBUG_LOG, parsedDescription)
-
-            var ddesc = if(unparsedBook!!.description is String){
-                 unparsedBook!!.description as String
-            } else {
-                val gson = Gson()
-                val pojo: Description = gson.fromJson(
-                    parsedDescription
-                    , Description::class.java)
-                pojo.value
+            if (unparsedBook!!.description==null){
+                unparsedBook!!.description="No description available"
             }
-            unparsedBook.actualDescription=ddesc
-            unparsedBook.description=ddesc
-            Log.d(DEBUG_LOG,  ddesc)
-            _book.value=unparsedBook
+            var parsedDescription:String=""
+
+            unparsedBook?.let { book ->
+                book.description?.let {
+                    if(it!="No description available") {
+                        parsedDescription = it.toString().removeRange(1..17)
+                        parsedDescription = parsedDescription.replace("\"", "\\\"")
+                        parsedDescription = parsedDescription.replaceRange(7, 7, "\"")
+                            .replaceRange(parsedDescription.length, parsedDescription.length, "\"")
+                    }
+
+                    Log.d(VALUE_CHECK_LOG, parsedDescription.toString())
+
+                    var actualDescription = if(book.description is String){
+                        book.description as String
+                    } else {
+                        val gson = Gson()
+                        val pojo: Description = gson.fromJson(
+                            parsedDescription
+                            , Description::class.java)
+                        pojo.value
+                    }
+                    book.actualDescription=actualDescription
+                    book.description=actualDescription
+                    Log.d(NETWORK_LOG,  actualDescription)
+                    repository.getAuthorByIdAsync(book.
+                    authors.first().author.key.substringAfterLast('/')).await()?.let {author->
+                        book.author=author
+                    }
+
+                    _book.value=book
+
+
+            }
+
+            }
 
 
         }
+
+    }
+
+    fun loadAuthorDetails(){
 
     }
 

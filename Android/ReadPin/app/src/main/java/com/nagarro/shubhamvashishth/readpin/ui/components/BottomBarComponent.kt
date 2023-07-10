@@ -27,7 +27,10 @@ fun BottomBar(navController: NavHostController) {
     val currentDestination = navBackStackEntry?.destination
 
     AnimatedVisibility(
-        visible = navController.currentDestination?.route !in listOf<String>(Screens.ViewBookById.route,Screens.UserProfile.route)
+        visible = navController.currentDestination?.route !in
+                listOf<String>(Screens.ViewBookById.route,
+                    Screens.UserProfile.route,
+                    Screens.ViewAuthorByID.route)
     ) {
         BottomNavigation {
             screens.forEach { screen ->
